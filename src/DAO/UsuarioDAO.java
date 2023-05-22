@@ -25,7 +25,7 @@ public class UsuarioDAO {
             PreparedStatement pstm = conn.prepareStatement(sql);
             
             //atribuindo os "?" com os get
-            pstm.setString(1,objUsuariodto.getNome_usuario());
+            pstm.setString(1,objUsuariodto.getEmail_usuario());
             pstm.setString(2, objUsuariodto.getSenha_usuario());
             
             ResultSet rs = pstm.executeQuery();

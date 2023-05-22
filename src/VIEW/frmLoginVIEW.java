@@ -33,7 +33,7 @@ public class frmLoginVIEW extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        txtNomeUsuario = new javax.swing.JTextField();
+        txtEmailUsuario = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         btnEntrarSistema = new javax.swing.JButton();
         txtSenhaUsuario = new javax.swing.JPasswordField();
@@ -41,6 +41,12 @@ public class frmLoginVIEW extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("EMAIL");
+
+        txtEmailUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEmailUsuarioActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("SENHA");
 
@@ -70,7 +76,7 @@ public class frmLoginVIEW extends javax.swing.JFrame {
                         .addGap(72, 72, 72)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtSenhaUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txtEmailUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(96, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -79,7 +85,7 @@ public class frmLoginVIEW extends javax.swing.JFrame {
                 .addGap(74, 74, 74)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtEmailUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -95,6 +101,10 @@ public class frmLoginVIEW extends javax.swing.JFrame {
     private void btnEntrarSistemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarSistemaActionPerformed
        Logar();
     }//GEN-LAST:event_btnEntrarSistemaActionPerformed
+
+    private void txtEmailUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailUsuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEmailUsuarioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -135,23 +145,23 @@ public class frmLoginVIEW extends javax.swing.JFrame {
     private javax.swing.JButton btnEntrarSistema;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField txtNomeUsuario;
+    private javax.swing.JTextField txtEmailUsuario;
     private javax.swing.JPasswordField txtSenhaUsuario;
     // End of variables declaration//GEN-END:variables
     
     
     private void Logar(){
      try{
-                    String nome_usuario, senha_usuario;
+                    String email_usuario, senha_usuario;
         
         //declaracao da variavel
-        nome_usuario = txtNomeUsuario.getText();
+        email_usuario = txtEmailUsuario.getText();
         senha_usuario = txtSenhaUsuario.getText();
         
         
         //Passando os dados para a variavel
-        UsuarioDTO objUsuariodto = new UsuarioDTO();
-        objUsuariodto.setNome_usuario(nome_usuario);
+            UsuarioDTO objUsuariodto = new UsuarioDTO();
+        objUsuariodto.setEmail_usuario(email_usuario);
         objUsuariodto.setSenha_usuario(senha_usuario);
         
         
