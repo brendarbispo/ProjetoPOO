@@ -35,8 +35,8 @@ public class frmLoginVIEW extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         txtNomeUsuario = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        txtSenhaUsuario = new javax.swing.JTextField();
         btnEntrarSistema = new javax.swing.JButton();
+        txtSenhaUsuario = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -61,16 +61,16 @@ public class frmLoginVIEW extends javax.swing.JFrame {
                         .addGap(168, 168, 168)
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(72, 72, 72)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtSenhaUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(167, 167, 167)
+                        .addComponent(jLabel2))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(150, 150, 150)
                         .addComponent(btnEntrarSistema))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(167, 167, 167)
-                        .addComponent(jLabel2)))
+                        .addGap(72, 72, 72)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtSenhaUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(96, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -82,59 +82,18 @@ public class frmLoginVIEW extends javax.swing.JFrame {
                 .addComponent(txtNomeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtSenhaUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(12, 12, 12)
                 .addComponent(btnEntrarSistema)
-                .addContainerGap(75, Short.MAX_VALUE))
+                .addContainerGap(76, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEntrarSistemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarSistemaActionPerformed
-        try{
-                    String nome_usuario, senha_usuario;
-        
-        //declaracao da variavel
-        nome_usuario = txtNomeUsuario.getText();
-        senha_usuario = txtSenhaUsuario.getText();
-        
-        
-        //Passando os dados para a variavel
-        UsuarioDTO objUsuariodto = new UsuarioDTO();
-        objUsuariodto.setNome_usuario(nome_usuario);
-        objUsuariodto.setSenha_usuario(senha_usuario);
-        
-        
-        UsuarioDAO objUsuariodao = new UsuarioDAO();
-        
-        ResultSet rsUsuariodao = objUsuariodao.autenticacaoUsuario(objUsuariodto);
-        
-        if(rsUsuariodao.next()){
-            //chamar tela que eu quero abrir
-            
-            //instancia a tela que eu quero abrir
-            frmPrincipalVIEW objfrmPrincipalView = new frmPrincipalVIEW();
-            
-            //faco com que apareça a tela que eu instanciei
-            objfrmPrincipalView.setVisible(true);
-                
-            
-            //fecha a tela anterior
-            dispose();
-            
-        }else{
-            
-            //enviar mensagem dizendo 'incorreto'
-            JOptionPane.showMessageDialog(null, "Usuario ou senha invalidos!");
-            
-        }
-        
- 
-        }catch (SQLException erro){
-            JOptionPane.showMessageDialog(null, "frmLoginView " + erro);
-        }
+       Logar();
     }//GEN-LAST:event_btnEntrarSistemaActionPerformed
 
     /**
@@ -177,6 +136,53 @@ public class frmLoginVIEW extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField txtNomeUsuario;
-    private javax.swing.JTextField txtSenhaUsuario;
+    private javax.swing.JPasswordField txtSenhaUsuario;
     // End of variables declaration//GEN-END:variables
+    
+    
+    private void Logar(){
+     try{
+                    String nome_usuario, senha_usuario;
+        
+        //declaracao da variavel
+        nome_usuario = txtNomeUsuario.getText();
+        senha_usuario = txtSenhaUsuario.getText();
+        
+        
+        //Passando os dados para a variavel
+        UsuarioDTO objUsuariodto = new UsuarioDTO();
+        objUsuariodto.setNome_usuario(nome_usuario);
+        objUsuariodto.setSenha_usuario(senha_usuario);
+        
+        
+        UsuarioDAO objUsuariodao = new UsuarioDAO();
+        
+        ResultSet rsUsuariodao = objUsuariodao.autenticacaoUsuario(objUsuariodto);
+        
+        if(rsUsuariodao.next()){
+            //chamar tela que eu quero abrir
+            
+            //instancia a tela que eu quero abrir
+            frmPrincipalVIEW objfrmPrincipalView = new frmPrincipalVIEW();
+            
+            //faco com que apareça a tela que eu instanciei
+            objfrmPrincipalView.setVisible(true);
+                
+            
+            //fecha a tela anterior
+            dispose();
+            
+        }else{
+            
+            //enviar mensagem dizendo 'incorreto'
+            JOptionPane.showMessageDialog(null, "Usuario ou senha invalidos!");
+            
+        }
+        
+ 
+        }catch (SQLException erro){
+            JOptionPane.showMessageDialog(null, "frmLoginView " + erro);
+        }
+    }
+
 }
