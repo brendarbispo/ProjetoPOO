@@ -18,8 +18,8 @@ public class FuncionarioDAO {
 
         try (
                 Connection conn = new ConexaoDAO().conectaBD();
-                PreparedStatement pstm = conn.prepareStatement(sql)
-        ) {
+                PreparedStatement pstm = conn.prepareStatement(sql)) {
+            
             pstm.setString(1, objFuncionariodto.getNome_funcionario());
             pstm.setString(2, objFuncionariodto.getEmail_funcionario());
             pstm.setString(3, objFuncionariodto.getSenha_funcionario());
@@ -40,10 +40,7 @@ public class FuncionarioDAO {
         String sql = "SELECT u.idusuarios, u.nome, u.email, u.senha, u.datacadastro, c.nomecargo FROM `usuarios` u INNER JOIN `cargos` c ON u.idcargo = c.idcargo";
 
         try (
-                Connection conn = new ConexaoDAO().conectaBD();
-                PreparedStatement pstm = conn.prepareStatement(sql);
-                ResultSet rs = pstm.executeQuery()
-        ) {
+                Connection conn = new ConexaoDAO().conectaBD(); PreparedStatement pstm = conn.prepareStatement(sql); ResultSet rs = pstm.executeQuery()) {
             List<FuncionarioDTO> lista = new ArrayList<>();
             //enquanto tiver linha traga o proximo
             while (rs.next()) {
@@ -66,15 +63,35 @@ public class FuncionarioDAO {
         }
     }
 
+    public int buscarUltimoId() {
+
+        String sql = "SELECT idusuarios FROM `usuarios` ORDER BY idusuarios DESC LIMIT 1";
+
+        try (
+                Connection conn = new ConexaoDAO().conectaBD(); 
+                PreparedStatement pstm = conn.prepareStatement(sql); 
+                ResultSet rs = pstm.executeQuery()) {
+            if (rs.next()) {
+
+                int ultimoid = rs.getInt("idusuarios");
+                return ultimoid;
+
+            }
+            return 0;
+
+        } catch (SQLException erro) {
+
+            JOptionPane.showMessageDialog(null, "FuncionarioDAO, Pesquisar: " + erro);
+            throw new RuntimeException(erro);
+        }
+    }
+
     public List<CargoDTO> buscarCargos() {
 
         String sql = "select idcargo, nomecargo from cargos";
 
         try (
-                Connection conn = new ConexaoDAO().conectaBD();
-                PreparedStatement pstm = conn.prepareStatement(sql);
-                ResultSet rs = pstm.executeQuery()
-        ) {
+                Connection conn = new ConexaoDAO().conectaBD(); PreparedStatement pstm = conn.prepareStatement(sql); ResultSet rs = pstm.executeQuery()) {
             List<CargoDTO> cargos = new ArrayList<>();
 
             //enquanto tiver linha traga o proximo
@@ -90,5 +107,32 @@ public class FuncionarioDAO {
             JOptionPane.showMessageDialog(null, "FuncionarioDAO, Pesquisar: " + erro);
             throw new RuntimeException(erro);
         }
+    }
+    
+    public void alterarFuncionario(FuncionarioDTO objFuncionariodto){
+        
+        
+        
+        String sql = "UPDATE usuarios SET `nome`=?,`email`=?,`senha`=?,`idcargo`= ? WHERE idusuarios = ?";
+
+        try (
+                Connection conn = new ConexaoDAO().conectaBD(); 
+                PreparedStatement pstm = conn.prepareStatement(sql); 
+            ) {
+            
+            pstm.setString(1, objFuncionariodto.getNome_funcionario());
+            pstm.setString(2, objFuncionariodto.getEmail_funcionario());
+            pstm.setString(3, objFuncionariodto.getSenha_funcionario());
+            pstm.setInt(4, objFuncionariodto.getCargo_funcionario());
+            pstm.setInt(5, objFuncionariodto.getId_funcionario());
+
+            pstm.execute();
+
+        } catch (SQLException erro) {
+
+            JOptionPane.showMessageDialog(null, "FuncionarioDAO, Alterar " + erro);
+            throw new RuntimeException(erro);
+        }
+        
     }
 }
