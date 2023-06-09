@@ -7,11 +7,15 @@ public class CargoDTO {
     private String nome_cargo;
 
     public int getId_cargo() {
+        
         return id_cargo;
+        
     }
 
     public void setId_cargo(int id_cargo) {
+        
         this.id_cargo = id_cargo;
+        
     }
 
     public String getNome_cargo() {
