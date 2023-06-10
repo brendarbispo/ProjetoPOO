@@ -4,21 +4,15 @@
  */
 package VIEW;
 
+import ARMAZENAMENTO.Sessao;
 import DAO.UsuarioDAO;
 import DTO.UsuarioDTO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author brendarodrigues
- */
 public class frmLoginVIEW extends javax.swing.JFrame {
 
-    /**
-     * Creates new form frmLoginVIEW
-     */
     public frmLoginVIEW() {
         initComponents();
     }
@@ -99,7 +93,7 @@ public class frmLoginVIEW extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEntrarSistemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarSistemaActionPerformed
-       Logar();
+        Logar();
     }//GEN-LAST:event_btnEntrarSistemaActionPerformed
 
     private void txtEmailUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailUsuarioActionPerformed
@@ -148,49 +142,43 @@ public class frmLoginVIEW extends javax.swing.JFrame {
     private javax.swing.JTextField txtEmailUsuario;
     private javax.swing.JPasswordField txtSenhaUsuario;
     // End of variables declaration//GEN-END:variables
-    
-    
-    private void Logar(){
-     try{
-                    String email_usuario, senha_usuario;
-        
-        //declaracao da variavel
-        email_usuario = txtEmailUsuario.getText();
-        senha_usuario = txtSenhaUsuario.getText();
-        
-        
-        //Passando os dados para a variavel
-            UsuarioDTO objUsuariodto = new UsuarioDTO();
-        objUsuariodto.setEmail_usuario(email_usuario);
-        objUsuariodto.setSenha_usuario(senha_usuario);
-        
-        
-        UsuarioDAO objUsuariodao = new UsuarioDAO();
-        
-        ResultSet rsUsuariodao = objUsuariodao.autenticacaoUsuario(objUsuariodto);
-        
-        if(rsUsuariodao.next()){
-            //chamar tela que eu quero abrir
-            
-            //instancia a tela que eu quero abrir
-            frmPrincipalVIEW objfrmPrincipalView = new frmPrincipalVIEW();
-            
-            //faco com que apareça a tela que eu instanciei
-            objfrmPrincipalView.setVisible(true);
-                
-            
-            //fecha a tela anterior
-            dispose();
-            
-        }else{
-            
-            //enviar mensagem dizendo 'incorreto'
-            JOptionPane.showMessageDialog(null, "Usuario ou senha invalidos!");
-            
-        }
-        
- 
-        }catch (SQLException erro){
+
+    private void Logar() {
+        try {
+            String email, senha;
+
+            //declaracao da variavel
+            email = txtEmailUsuario.getText();
+            senha = txtSenhaUsuario.getText();
+
+            //Passando os dados para a variavel
+            UsuarioDTO login = new UsuarioDTO();
+            login.setEmail(email);
+            login.setSenha(senha);
+
+            UsuarioDAO usuarioDao = new UsuarioDAO();
+
+            UsuarioDTO autenticado = usuarioDao.autenticacao(login);
+
+            if (autenticado != null) {
+
+                Sessao.getInstance().setUsuario(autenticado);
+                //colocando o usuario dentro de uma sessao
+
+                //instancia a tela que eu quero abrir
+                frmPrincipalVIEW objfrmPrincipalView = new frmPrincipalVIEW();
+
+                //faco com que apareça a tela que eu instanciei
+                objfrmPrincipalView.setVisible(true);
+
+                //fecha a tela anterior
+                dispose();
+            } else {
+
+                //enviar mensagem dizendo 'incorreto'
+                JOptionPane.showMessageDialog(null, "Usuario ou senha invalidos!");
+            }
+        } catch (Exception erro) {
             JOptionPane.showMessageDialog(null, "frmLoginView " + erro);
         }
     }

@@ -1,46 +1,60 @@
-
 package DTO;
 
-//CLASSE DE ENCAPSULAMENTO DO LOGIN
-
 public class UsuarioDTO {
-    
-    private int id_usuario;
-    private String email_usuario;
-    private String senha_usuario;
 
-    /**
-     * @return the id_usuario
-     */
-    public int getId_usuario() {
-        return id_usuario;
+    private int id;
+    private String nome;
+    private String email;
+    private String senha;
+    private String cadastro;
+    private boolean cargo;
+
+    public int getId() {
+        return id;
     }
 
-
-    public void setId_usuario(int id_usuario) {
-        this.id_usuario = id_usuario;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    
-    public String getEmail_usuario() {
-        return email_usuario;
+    public String getNome() {
+        return nome;
     }
 
-
-    public void setEmail_usuario(String email_usuario) {
-        this.email_usuario = email_usuario;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public String getSenha_usuario() {
-        return senha_usuario;
+    public String getEmail() {
+        return email;
     }
 
-
-    public void setSenha_usuario(String senha_usuario) {
-        this.senha_usuario = senha_usuario;
+    public void setEmail(String email) {
+        this.email = email;
     }
-    
-    
-    
-   
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public String getCadastro() {
+        return cadastro;
+    }
+
+    public void setCadastro(String cadastro) {
+        this.cadastro = cadastro;
+    }
+
+    public boolean isCargo() {
+        return cargo;
+    }
+
+    public void setCargo(boolean cargo) {
+        this.cargo = cargo;
+    }
+
 }

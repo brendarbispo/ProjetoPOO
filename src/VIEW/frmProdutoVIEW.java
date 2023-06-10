@@ -1,5 +1,6 @@
 package VIEW;
 
+import ARMAZENAMENTO.Sessao;
 import DAO.ProdutoDAO;
 import DTO.ProdutoDTO;
 import java.awt.Component;
@@ -16,6 +17,7 @@ import javax.swing.table.TableColumnModel;
 public class frmProdutoVIEW extends javax.swing.JFrame {
 
     public frmProdutoVIEW() {
+        autenticado();
         initComponents();
         setFuncionarioID();
     }
@@ -266,6 +268,20 @@ public class frmProdutoVIEW extends javax.swing.JFrame {
     private javax.swing.JTextField txtValor;
     // End of variables declaration//GEN-END:variables
 
+    private void autenticado() {
+        if (!Sessao.getInstance().autenticado()) {
+            //instancia a tela que eu quero abrir
+            frmLoginVIEW objfrmLoginView = new frmLoginVIEW();
+
+            //faco com que apareça a tela que eu instanciei
+            objfrmLoginView.setVisible(true);
+
+            //fecha a tela anterior
+            dispose();
+
+        }
+    }
+
     private void setFuncionarioID() {
         ProdutoDAO objProdutoDao = new ProdutoDAO();
         int ultimoid = objProdutoDao.buscarUltimoId();
@@ -360,9 +376,9 @@ public class frmProdutoVIEW extends javax.swing.JFrame {
         objProdutoDto.setId_produto(id);
         objProdutoDto.setNome_produto(nome);
         objProdutoDto.setValor(valor);
-        
-        
+
         ProdutoDAO objProdutoDao = new ProdutoDAO();
         objProdutoDao.alterarProduto(objProdutoDto);
     }
+
 }

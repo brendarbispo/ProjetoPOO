@@ -1,8 +1,9 @@
 package VIEW;
 
-import DAO.FuncionarioDAO;
+import ARMAZENAMENTO.Sessao;
+import DAO.UsuarioDAO;
 import DTO.CargoDTO;
-import DTO.FuncionarioDTO;
+import DTO.UsuarioDTO;
 import java.awt.Component;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,12 +15,12 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
-public class frmFuncionarioVIEW extends javax.swing.JFrame {
+public class frmUsuarioVIEW extends javax.swing.JFrame {
 
-    public frmFuncionarioVIEW() {
+    public frmUsuarioVIEW() {
+        autenticado();
         initComponents();
-        buscarCargos();
-        setFuncionarioID();
+        setEditTextId();
     }
 
     @SuppressWarnings("unchecked")
@@ -33,24 +34,23 @@ public class frmFuncionarioVIEW extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         btnCadastrar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         txtSenha = new javax.swing.JTextField();
-        cmbCargo = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabelaFuncionario = new javax.swing.JTable();
+        tabela = new javax.swing.JTable();
         btnPesquisar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         txtId = new javax.swing.JLabel();
         btnCarregarCampos = new javax.swing.JButton();
         btnAlterar = new javax.swing.JButton();
+        ckbCargo = new javax.swing.JCheckBox();
 
         jTextField1.setText("jTextField1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Nome e sobrenome:");
+        jLabel1.setText("Nome Completo:");
 
         txtNome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -66,9 +66,7 @@ public class frmFuncionarioVIEW extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setText("CADASTRO DE NOVO FUNCIONARIO:");
-
-        jLabel4.setText("Cargo:");
+        jLabel3.setText("CADASTRO DE NOVO USUARIO:");
 
         btnCadastrar.setText("CADASTRAR");
         btnCadastrar.addActionListener(new java.awt.event.ActionListener() {
@@ -85,13 +83,7 @@ public class frmFuncionarioVIEW extends javax.swing.JFrame {
             }
         });
 
-        cmbCargo.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cmbCargoItemStateChanged(evt);
-            }
-        });
-
-        tabelaFuncionario.setModel(new javax.swing.table.DefaultTableModel(
+        tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -102,8 +94,8 @@ public class frmFuncionarioVIEW extends javax.swing.JFrame {
                 "id", "Nome", "Email", "Cargo"
             }
         ));
-        tabelaFuncionario.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        jScrollPane1.setViewportView(tabelaFuncionario);
+        tabela.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jScrollPane1.setViewportView(tabela);
 
         btnPesquisar.setText("PESQUISAR");
         btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
@@ -130,64 +122,62 @@ public class frmFuncionarioVIEW extends javax.swing.JFrame {
             }
         });
 
+        ckbCargo.setText("Administrador");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(121, 121, 121)
-                .addComponent(jLabel3)
-                .addContainerGap(134, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(34, 34, 34)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(txtNome)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmbCargo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnCadastrar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnAlterar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnPesquisar))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtSenha, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addGap(30, 30, 30))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(txtNome)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnCadastrar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAlterar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnPesquisar))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtSenha, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnCarregarCampos)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(btnCarregarCampos)
+                                    .addComponent(jLabel5))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtId))
-                            .addComponent(jLabel5))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                                .addComponent(txtId)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(202, 202, 202)
+                        .addComponent(ckbCargo)))
+                .addGap(30, 30, 30))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(141, 141, 141)
+                .addComponent(jLabel3)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(12, 12, 12)
+                .addGap(27, 27, 27)
                 .addComponent(jLabel3)
-                .addGap(52, 52, 52)
+                .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(txtId))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(cmbCargo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ckbCargo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -207,7 +197,7 @@ public class frmFuncionarioVIEW extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnCarregarCampos)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         pack();
@@ -223,19 +213,14 @@ public class frmFuncionarioVIEW extends javax.swing.JFrame {
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
 
-        CadastrarFuncionario();
-        listarValores();
+        cadastrar();
+        listar();
         limparCampos();
-
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
-    private void cmbCargoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbCargoItemStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmbCargoItemStateChanged
-
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        listarValores();
-        tabelaResize(tabelaFuncionario);
+        listar();
+        tabelaResize(tabela);
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void txtSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSenhaActionPerformed
@@ -243,12 +228,12 @@ public class frmFuncionarioVIEW extends javax.swing.JFrame {
     }//GEN-LAST:event_txtSenhaActionPerformed
 
     private void btnCarregarCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarregarCamposActionPerformed
-        CarregarCampos();
+        carregar();
     }//GEN-LAST:event_btnCarregarCamposActionPerformed
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
-        alterarFuncionario();
-        listarValores();
+        alterar();
+        listar();
         limparCampos();
     }//GEN-LAST:event_btnAlterarActionPerformed
 
@@ -269,20 +254,21 @@ public class frmFuncionarioVIEW extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(frmFuncionarioVIEW.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmUsuarioVIEW.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(frmFuncionarioVIEW.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmUsuarioVIEW.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(frmFuncionarioVIEW.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmUsuarioVIEW.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(frmFuncionarioVIEW.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(frmUsuarioVIEW.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new frmFuncionarioVIEW().setVisible(true);
+                new frmUsuarioVIEW().setVisible(true);
             }
         });
     }
@@ -293,66 +279,58 @@ public class frmFuncionarioVIEW extends javax.swing.JFrame {
     private javax.swing.JButton btnCarregarCampos;
     private javax.swing.JButton btnPesquisar;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JComboBox<String> cmbCargo;
+    private javax.swing.JCheckBox ckbCargo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTable tabelaFuncionario;
+    private javax.swing.JTable tabela;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JLabel txtId;
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtSenha;
     // End of variables declaration//GEN-END:variables
 
-    private List<CargoDTO> cargos;
+       private void autenticado(){
+        if(!Sessao.getInstance().autenticado()){
+                            //instancia a tela que eu quero abrir
+                frmLoginVIEW objfrmLoginView = new frmLoginVIEW();
 
-    private void buscarCargos() {
-        try {
-            FuncionarioDAO objFuncionariodao = new FuncionarioDAO();
+                //faco com que apareça a tela que eu instanciei
+                objfrmLoginView.setVisible(true);
 
-            cargos = objFuncionariodao.buscarCargos();
-
-            for (CargoDTO cargo : cargos) {
-                cmbCargo.addItem(cargo.getNome_cargo());
-            }
-        } catch (Exception erro) {
-
-            JOptionPane.showMessageDialog(null, "Buscar cargos VIEW: " + erro);
+                //fecha a tela anterior
+                dispose();
+            
         }
     }
-
-    private int getIdCargo() {
-        return cargos.get(cmbCargo.getSelectedIndex()).getId_cargo();
-    }
-
-    private void setFuncionarioID() {
-        FuncionarioDAO objFuncionariodao = new FuncionarioDAO();
-        int ultimoid = objFuncionariodao.buscarUltimoId();
+    
+    private void setEditTextId() {
+        UsuarioDAO usuarioDao = new UsuarioDAO();
+        int ultimoid = usuarioDao.ultimoId();
 
         txtId.setText(String.valueOf(ultimoid + 1));
     }
 
-    private void listarValores() {
+    private void listar() {
         try {
 
-            FuncionarioDAO objFuncionariodao = new FuncionarioDAO();
-            DefaultTableModel model = (DefaultTableModel) tabelaFuncionario.getModel();
+            UsuarioDAO usuarioDao = new UsuarioDAO();
+            DefaultTableModel model = (DefaultTableModel) tabela.getModel();
             model.setNumRows(0);
 
-            List<FuncionarioDTO> lista = objFuncionariodao.pesquisarFuncionario();
+            List<UsuarioDTO> lista = usuarioDao.pesquisar();
 
             for (int num = 0; num < lista.size(); num++) {
 
                 model.addRow(new Object[]{
-                    lista.get(num).getId_funcionario(),
-                    lista.get(num).getNome_funcionario(),
-                    lista.get(num).getEmail_funcionario(),
-                    lista.get(num).getNome_cargo()
+                    lista.get(num).getId(),
+                    lista.get(num).getNome(),
+                    lista.get(num).getEmail(),
+                    lista.get(num).isCargo() ? "Administrador" : "Atentende"
                 });
 
             }
@@ -360,6 +338,69 @@ public class frmFuncionarioVIEW extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(null, "Listar valores VIEW: " + erro);
         }
+    }
+
+    private void carregar() {
+        int setar = tabela.getSelectedRow();
+
+        //pegando da tabela o valor do id do funcionario
+        txtId.setText(tabela.getModel().getValueAt(setar, 0).toString());
+        txtNome.setText(tabela.getModel().getValueAt(setar, 1).toString());
+        txtEmail.setText(tabela.getModel().getValueAt(setar, 2).toString());
+        ckbCargo.setSelected(tabela.getModel().getValueAt(setar, 3).toString() == "Administrador");
+    }
+
+    private void cadastrar() {
+        //enviando informacoes para o dto
+        boolean cargo;
+        String nome, email, senha;
+
+        nome = txtNome.getText();
+        email = txtEmail.getText();
+        senha = txtSenha.getText();
+        cargo = ckbCargo.isSelected();
+
+        UsuarioDTO usuario = new UsuarioDTO();
+
+        usuario.setNome(nome);
+        usuario.setEmail(email);
+        usuario.setSenha(senha);
+        usuario.setCargo(cargo);
+
+        UsuarioDAO usuarioDao = new UsuarioDAO();
+        usuarioDao.cadastrar(usuario);
+        JOptionPane.showMessageDialog(this, "Cadastrado", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void limparCampos() {
+        txtNome.setText("");
+        txtEmail.setText("");
+        txtSenha.setText("");
+        ckbCargo.setSelected(false);
+    }
+
+    private void alterar() {
+
+        int id;
+        boolean cargo;
+        String nome, email, senha;
+
+        id = Integer.parseInt(txtId.getText());
+        nome = txtNome.getText();
+        email = txtEmail.getText();
+        senha = txtSenha.getText();
+        cargo = ckbCargo.isSelected();
+
+        UsuarioDTO usuario = new UsuarioDTO();
+
+        usuario.setId(id);
+        usuario.setNome(nome);
+        usuario.setEmail(email);
+        usuario.setSenha(senha);
+        usuario.setCargo(cargo);
+
+        UsuarioDAO usuarioDao = new UsuarioDAO();
+        usuarioDao.alterar(usuario);
     }
 
     private void tabelaResize(JTable table) {
@@ -378,69 +419,4 @@ public class frmFuncionarioVIEW extends javax.swing.JFrame {
         }
     }
 
-    private void CarregarCampos() {
-        int setar = tabelaFuncionario.getSelectedRow();
-
-        //pegando da tabela o valor do id do funcionario
-        txtId.setText(tabelaFuncionario.getModel().getValueAt(setar, 0).toString());
-        txtNome.setText(tabelaFuncionario.getModel().getValueAt(setar, 1).toString());
-        txtEmail.setText(tabelaFuncionario.getModel().getValueAt(setar, 2).toString());
-        //cmbCargo(tabelaFuncionario.getModel().getValueAt(setar, 3).toString());
-
-    }
-
-    private void CadastrarFuncionario() {
-        //enviando informacoes para o dto
-        String nome, email, senha;
-        int cargo;
-
-        nome = txtNome.getText();
-        email = txtEmail.getText();
-        senha = txtSenha.getText();
-        cargo = getIdCargo();
-
-        FuncionarioDTO objFuncionariodto = new FuncionarioDTO();
-
-        objFuncionariodto.setNome_funcionario(nome);
-        objFuncionariodto.setEmail_funcionario(email);
-        objFuncionariodto.setSenha_funcionario(senha);
-        objFuncionariodto.setCargo_funcionario(cargo);
-
-        FuncionarioDAO objFuncionariodao = new FuncionarioDAO();
-        objFuncionariodao.cadastrarFuncionario(objFuncionariodto);
-        JOptionPane.showMessageDialog(this, "Cadastrado", "mensagem", JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    private void limparCampos() {
-        txtNome.setText("");
-        txtEmail.setText("");
-        txtSenha.setText("");
-
-    }
-
-    private void alterarFuncionario() {
-
-        int id;
-        int cargo;
-        String nome, email, senha;
-
-        id = Integer.parseInt(txtId.getText());
-        nome = txtNome.getText();
-        email = txtEmail.getText();
-        senha = txtSenha.getText();
-        cargo = getIdCargo();
-
-        FuncionarioDTO objFuncionariodto = new FuncionarioDTO();
-
-        objFuncionariodto.setId_funcionario(id);
-        objFuncionariodto.setNome_funcionario(nome);
-        objFuncionariodto.setEmail_funcionario(email);
-        objFuncionariodto.setSenha_funcionario(senha);
-        objFuncionariodto.setCargo_funcionario(cargo);
-        
-        
-        FuncionarioDAO objFuncionariodao = new FuncionarioDAO();
-        objFuncionariodao.alterarFuncionario(objFuncionariodto);
-
-    }
 }

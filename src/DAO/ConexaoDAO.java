@@ -11,32 +11,31 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 public class ConexaoDAO {
-    
-    
-    public Connection conectaBD(){
-        
-            Connection conn = null;
 
-            try{
-                               
-                //tentará fazer o que esta aqui, qualquer problema irá retornar uma mensagem de erro
-                            Class.forName("com.mysql.cj.jdbc.Driver");
+    public Connection conectaBD() {
 
-                String url = "jdbc:mysql://localhost:3307/p-java";
-                
-                conn = DriverManager.getConnection(url, "root", "");
+        Connection conn = null;
 
-            }catch (SQLException erro){
-                //mensagem de erro
+        try {
 
-            JOptionPane.showMessageDialog((null),"ConexaoDAO " + erro.getMessage());
+            //tentará fazer o que esta aqui, qualquer problema irá retornar uma mensagem de erro
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            String url = "jdbc:mysql://localhost:3307/p-java";
+
+            conn = DriverManager.getConnection(url, "root", "");
+
+            return conn;
+
+        } catch (SQLException erro) {
+            //mensagem de erro
+            JOptionPane.showMessageDialog((null), "ConexaoDAO " + erro.getMessage());
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ConexaoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-            return conn;
 
+        return null;
     }
 
 }
