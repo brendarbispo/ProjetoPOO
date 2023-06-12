@@ -41,6 +41,7 @@ public class frmProdutoVIEW extends javax.swing.JFrame {
         txtId = new javax.swing.JLabel();
         btnCarregarCampos = new javax.swing.JButton();
         btnAlterar = new javax.swing.JButton();
+        txtVoltar = new javax.swing.JButton();
 
         jTextField1.setText("jTextField1");
 
@@ -115,6 +116,13 @@ public class frmProdutoVIEW extends javax.swing.JFrame {
             }
         });
 
+        txtVoltar.setText("VOLTAR");
+        txtVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtVoltarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -122,30 +130,33 @@ public class frmProdutoVIEW extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtId))
+                            .addComponent(jLabel5))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnCarregarCampos)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtVoltar))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addComponent(txtNome)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnCadastrar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnAlterar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
                                 .addComponent(btnPesquisar))
-                            .addComponent(txtValor, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addGap(30, 30, 30))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnCarregarCampos)
+                            .addComponent(txtValor, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtId))
-                            .addComponent(jLabel5))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel1)))
+                        .addGap(30, 30, 30))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(168, 168, 168)
                 .addComponent(jLabel3)
@@ -176,7 +187,9 @@ public class frmProdutoVIEW extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnCarregarCampos)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCarregarCampos)
+                    .addComponent(txtVoltar))
                 .addContainerGap(41, Short.MAX_VALUE))
         );
 
@@ -213,6 +226,10 @@ public class frmProdutoVIEW extends javax.swing.JFrame {
         listarValores();
         limparCampos();
     }//GEN-LAST:event_btnAlterarActionPerformed
+
+    private void txtVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtVoltarActionPerformed
+        voltar();
+    }//GEN-LAST:event_txtVoltarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -266,6 +283,7 @@ public class frmProdutoVIEW extends javax.swing.JFrame {
     private javax.swing.JLabel txtId;
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtValor;
+    private javax.swing.JButton txtVoltar;
     // End of variables declaration//GEN-END:variables
 
     private void autenticado() {
@@ -280,6 +298,19 @@ public class frmProdutoVIEW extends javax.swing.JFrame {
             dispose();
 
         }
+    }
+    
+        public void voltar() {
+
+            //instancia a tela que eu quero abrir
+            frmPrincipalVIEW objfrmPrincipalView = new frmPrincipalVIEW();
+
+            //faco com que apareça a tela que eu instanciei
+            objfrmPrincipalView.setVisible(true);
+            
+
+            //fecha a tela anterior
+            dispose();
     }
 
     private void setFuncionarioID() {

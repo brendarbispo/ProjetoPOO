@@ -4,6 +4,8 @@
  */
 package projetopoo;
 
+import VIEW.frmLoginVIEW;
+
 /**
  *
  * @author brendarodrigues
@@ -14,7 +16,8 @@ public class ProjetoPOO {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+    frmLoginVIEW objfrmLoginView = new frmLoginVIEW();
+    objfrmLoginView.setVisible(true);
     }
     
 }

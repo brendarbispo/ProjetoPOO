@@ -19,7 +19,7 @@ public class frmPrincipalVIEW extends javax.swing.JFrame {
     public frmPrincipalVIEW() {
         autenticado();
         initComponents();
-        
+
         UsuarioDTO usuario = Sessao.getInstance().getUsuario();
         txtNome.setText(usuario.getNome());
     }
@@ -34,51 +34,94 @@ public class frmPrincipalVIEW extends javax.swing.JFrame {
     private void initComponents() {
 
         txtNome = new javax.swing.JLabel();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jToggleButton2 = new javax.swing.JToggleButton();
+        txtVerProdutos = new javax.swing.JToggleButton();
+        txtVerUsuarios = new javax.swing.JToggleButton();
         txtSair = new javax.swing.JToggleButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         txtNome.setText("NOME");
 
-        jToggleButton1.setText("PRODUTOS");
+        txtVerProdutos.setText("PRODUTOS");
+        txtVerProdutos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtVerProdutosActionPerformed(evt);
+            }
+        });
 
-        jToggleButton2.setText("USUARIOS");
+        txtVerUsuarios.setText("USUARIOS");
+        txtVerUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtVerUsuariosActionPerformed(evt);
+            }
+        });
 
         txtSair.setText("SAIR");
+        txtSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSairActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Olá ");
+
+        jLabel2.setText("PetShop B.J. ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(31, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtNome)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jToggleButton1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jToggleButton2)
-                        .addGap(53, 53, 53)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNome))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtVerProdutos)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtVerUsuarios)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtSair)))
-                .addGap(17, 17, 17))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addComponent(txtNome)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 237, Short.MAX_VALUE)
+                .addGap(45, 45, 45)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jToggleButton1)
-                    .addComponent(jToggleButton2)
-                    .addComponent(txtSair))
-                .addGap(21, 21, 21))
+                    .addComponent(jLabel1)
+                    .addComponent(txtNome))
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtVerProdutos)
+                    .addComponent(txtSair)
+                    .addComponent(txtVerUsuarios))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtVerProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtVerProdutosActionPerformed
+        verProdutos();
+    }//GEN-LAST:event_txtVerProdutosActionPerformed
+
+    private void txtVerUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtVerUsuariosActionPerformed
+        verUsuarios();
+    }//GEN-LAST:event_txtVerUsuariosActionPerformed
+
+    private void txtSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSairActionPerformed
+        sair(); // Função de logout
+    }//GEN-LAST:event_txtSairActionPerformed
 
     /**
      * @param args the command line arguments
@@ -113,29 +156,68 @@ public class frmPrincipalVIEW extends javax.swing.JFrame {
                 new frmPrincipalVIEW().setVisible(true);
             }
         });
-        
-        
+
     }
-    
-    private void autenticado(){
-        if(!Sessao.getInstance().autenticado()){
-                            //instancia a tela que eu quero abrir
-                frmLoginVIEW objfrmLoginView = new frmLoginVIEW();
 
-                //faco com que apareça a tela que eu instanciei
-                objfrmLoginView.setVisible(true);
+    private void sair() {
 
-                //fecha a tela anterior
-                dispose();
-            
+        //instancia a tela que eu quero abrir
+        frmLoginVIEW objfrmLoginView = new frmLoginVIEW();
+
+        //faco com que apareça a tela que eu instanciei
+        objfrmLoginView.setVisible(true);
+
+        //fecha a tela anterior
+        dispose();
+
+    }
+
+    private void autenticado() {
+        if (!Sessao.getInstance().autenticado()) {
+            //instancia a tela que eu quero abrir
+            frmLoginVIEW objfrmLoginView = new frmLoginVIEW();
+
+            //faco com que apareça a tela que eu instanciei
+            objfrmLoginView.setVisible(true);
+
+            //fecha a tela anterior
+            dispose();
+
         }
+
+    }
+
+    public void verProdutos() {
+
+        //instancia a tela que eu quero abrir
+        frmProdutoVIEW objfrmProdutoView = new frmProdutoVIEW();
+
+        //faco com que apareça a tela que eu instanciei
+        objfrmProdutoView.setVisible(true);
+
+        //fecha a tela anterior
+        dispose();
+    }
+
+    public void verUsuarios() {
+
+        //instancia a tela que eu quero abrir
+        frmUsuarioVIEW objfrmUsuariosView = new frmUsuarioVIEW();
+
+        //faco com que apareça a tela que eu instanciei
+        objfrmUsuariosView.setVisible(true);
+
+        //fecha a tela anterior
+        dispose();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel txtNome;
     private javax.swing.JToggleButton txtSair;
+    private javax.swing.JToggleButton txtVerProdutos;
+    private javax.swing.JToggleButton txtVerUsuarios;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -45,6 +45,7 @@ public class frmUsuarioVIEW extends javax.swing.JFrame {
         btnCarregarCampos = new javax.swing.JButton();
         btnAlterar = new javax.swing.JButton();
         ckbCargo = new javax.swing.JCheckBox();
+        txtVoltar = new javax.swing.JButton();
 
         jTextField1.setText("jTextField1");
 
@@ -124,6 +125,13 @@ public class frmUsuarioVIEW extends javax.swing.JFrame {
 
         ckbCargo.setText("Administrador");
 
+        txtVoltar.setText("VOLTAR");
+        txtVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtVoltarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -146,19 +154,20 @@ public class frmUsuarioVIEW extends javax.swing.JFrame {
                     .addComponent(txtSenha, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(btnCarregarCampos)
-                                    .addComponent(jLabel5))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel1)
+                            .addComponent(btnCarregarCampos)
+                            .addComponent(jLabel5)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtId)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(202, 202, 202)
-                        .addComponent(ckbCargo)))
+                                .addComponent(txtId)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(202, 202, 202)
+                                .addComponent(ckbCargo))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtVoltar)))))
                 .addGap(30, 30, 30))
             .addGroup(layout.createSequentialGroup()
                 .addGap(141, 141, 141)
@@ -196,7 +205,9 @@ public class frmUsuarioVIEW extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnCarregarCampos)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCarregarCampos)
+                    .addComponent(txtVoltar))
                 .addContainerGap(37, Short.MAX_VALUE))
         );
 
@@ -236,6 +247,10 @@ public class frmUsuarioVIEW extends javax.swing.JFrame {
         listar();
         limparCampos();
     }//GEN-LAST:event_btnAlterarActionPerformed
+
+    private void txtVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtVoltarActionPerformed
+      voltar();
+    }//GEN-LAST:event_txtVoltarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -292,6 +307,7 @@ public class frmUsuarioVIEW extends javax.swing.JFrame {
     private javax.swing.JLabel txtId;
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtSenha;
+    private javax.swing.JButton txtVoltar;
     // End of variables declaration//GEN-END:variables
 
        private void autenticado(){
@@ -306,6 +322,19 @@ public class frmUsuarioVIEW extends javax.swing.JFrame {
                 dispose();
             
         }
+    }
+       
+               public void voltar() {
+
+            //instancia a tela que eu quero abrir
+            frmPrincipalVIEW objfrmPrincipalView = new frmPrincipalVIEW();
+
+            //faco com que apareça a tela que eu instanciei
+            objfrmPrincipalView.setVisible(true);
+            
+
+            //fecha a tela anterior
+            dispose();
     }
     
     private void setEditTextId() {
