@@ -112,6 +112,8 @@ public class ProdutoDAO {
 
     }
     
+    
+    
     public int buscarUltimoId() {
 
         String sql = "SELECT idproduto FROM `produtos` ORDER BY idproduto DESC LIMIT 1";
@@ -134,4 +136,25 @@ public class ProdutoDAO {
             throw new RuntimeException(erro);
         }
     }
+    
+    public void deletarProduto(int id) {
+
+        String sql = "DELETE FROM produtos WHERE idproduto = ?";
+
+        try (
+                Connection conn = new ConexaoDAO().conectaBD(); PreparedStatement pstm = conn.prepareStatement(sql);) {
+
+            pstm.setInt(1, id);
+
+            pstm.execute();
+
+        } catch (SQLException erro) {
+
+            JOptionPane.showMessageDialog(null, "FuncionarioDAO, Excluir " + erro);
+            throw new RuntimeException(erro);
+        }
+
+    }
+ 
+   
 }

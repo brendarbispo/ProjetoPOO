@@ -1,12 +1,13 @@
 
 package ARMAZENAMENTO;
 
+import DTO.FuncionarioDTO;
 import DTO.UsuarioDTO;
 
 public class Sessao {
 
     private static Sessao instance;
-    private UsuarioDTO usuario;
+    private FuncionarioDTO funcionario;
 
     private Sessao() {
         // Construtor privado para evitar a criação direta de instâncias
@@ -21,14 +22,19 @@ public class Sessao {
     }
     
     public boolean autenticado(){
-        return this.usuario != null;
+        return this.funcionario != null;
     }
 
-    public void setUsuario(UsuarioDTO usuario) {
-        this.usuario = usuario;
+    
+    public void setFuncionario(FuncionarioDTO funcionario){
+        this.funcionario = funcionario;
+        
+    }
+    
+        public FuncionarioDTO getFuncionario(){
+        return funcionario;
+        
     }
 
-    public UsuarioDTO getUsuario() {
-        return usuario;
-    }  
+ 
 }

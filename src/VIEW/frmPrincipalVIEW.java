@@ -5,7 +5,9 @@
 package VIEW;
 
 import ARMAZENAMENTO.Sessao;
+import DTO.FuncionarioDTO;
 import DTO.UsuarioDTO;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,8 +22,8 @@ public class frmPrincipalVIEW extends javax.swing.JFrame {
         autenticado();
         initComponents();
 
-        UsuarioDTO usuario = Sessao.getInstance().getUsuario();
-        txtNome.setText(usuario.getNome());
+        FuncionarioDTO funcionario = Sessao.getInstance().getFuncionario();
+        txtNome.setText(funcionario.getNome());
     }
 
     /**
@@ -67,28 +69,30 @@ public class frmPrincipalVIEW extends javax.swing.JFrame {
 
         jLabel1.setText("Olá ");
 
-        jLabel2.setText("PetShop B.J. ");
+        jLabel2.setText("Bem vindo ao PetShop BeJão ☻");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNome))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
+                        .addGap(20, 20, 20)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtNome))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(txtVerProdutos)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtVerUsuarios)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtSair)))
+                                .addComponent(txtVerUsuarios)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtSair))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(72, 72, 72)
+                        .addComponent(jLabel2)))
                 .addContainerGap(62, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -116,7 +120,14 @@ public class frmPrincipalVIEW extends javax.swing.JFrame {
     }//GEN-LAST:event_txtVerProdutosActionPerformed
 
     private void txtVerUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtVerUsuariosActionPerformed
-        verUsuarios();
+        FuncionarioDTO funcionario = Sessao.getInstance().getFuncionario();
+        
+        if(funcionario.editar()){
+            verUsuarios();
+        }
+        else{
+        JOptionPane.showMessageDialog(null, " Voce não possui permissão para esta atividade");
+        }
     }//GEN-LAST:event_txtVerUsuariosActionPerformed
 
     private void txtSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSairActionPerformed

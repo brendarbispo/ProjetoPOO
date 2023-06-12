@@ -6,6 +6,9 @@ package VIEW;
 
 import ARMAZENAMENTO.Sessao;
 import DAO.UsuarioDAO;
+import DTO.AtendimentoDTO;
+import DTO.FuncionarioDTO;
+import DTO.GerenciaDTO;
 import DTO.UsuarioDTO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -94,6 +97,8 @@ public class frmLoginVIEW extends javax.swing.JFrame {
 
     private void btnEntrarSistemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarSistemaActionPerformed
         Logar();
+        
+        
     }//GEN-LAST:event_btnEntrarSistemaActionPerformed
 
     private void txtEmailUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailUsuarioActionPerformed
@@ -161,8 +166,9 @@ public class frmLoginVIEW extends javax.swing.JFrame {
             UsuarioDTO autenticado = usuarioDao.autenticacao(login);
 
             if (autenticado != null) {
-
-                Sessao.getInstance().setUsuario(autenticado);
+                
+                FuncionarioDTO funcionario = autenticar(autenticado);
+                Sessao.getInstance().setFuncionario(funcionario);
                 //colocando o usuario dentro de uma sessao
 
                 //instancia a tela que eu quero abrir
@@ -182,5 +188,25 @@ public class frmLoginVIEW extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "frmLoginView " + erro);
         }
     }
+    
+    public FuncionarioDTO autenticar(UsuarioDTO usuario){
+        FuncionarioDTO funcionario;
+        if(usuario.isCargo()){
+            funcionario = new GerenciaDTO();
+            
+        }else{
+            funcionario = new AtendimentoDTO();
+        }
+        
+        funcionario.setNome(usuario.getNome());
+        funcionario.setEmail(usuario.getEmail());
+        funcionario.setSenha(usuario.getSenha());
+        funcionario.setCargo(usuario.isCargo());
+        funcionario.setId(usuario.getId());
+        
+        
+        return funcionario;
+    }
+  
 
 }

@@ -1,6 +1,8 @@
+
 package DTO;
 
-public class  UsuarioDTO {
+public abstract class FuncionarioDTO {
+    
 
     private int id;
     private String nome;
@@ -56,5 +58,33 @@ public class  UsuarioDTO {
     public void setCargo(boolean cargo) {
         this.cargo = cargo;
     }
-
+    
+    public FuncionarioDTO logar(UsuarioDTO usuario){
+        FuncionarioDTO funcionario;
+        if(usuario.isCargo()){
+            funcionario = new GerenciaDTO();
+            
+        }else{
+            funcionario = new AtendimentoDTO();
+        }
+        
+        funcionario.setNome(usuario.getNome());
+        funcionario.setEmail(usuario.getEmail());
+        funcionario.setSenha(usuario.getSenha());
+        funcionario.setCargo(usuario.isCargo());
+        funcionario.setId(usuario.getId());
+        
+        
+        return funcionario;
+    }
+    public abstract boolean ler();
+    public abstract boolean editar();
+    public abstract boolean criar();
+    public abstract boolean apagar();
+    
+    
+    
+    
+    
 }
+
