@@ -8,34 +8,24 @@ import java.sql.Connection;
 import javax.swing.JOptionPane;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ConexaoDAO {
 
     public Connection conectaBD() {
-
-        Connection conn = null;
-
         try {
 
             //tentará fazer o que esta aqui, qualquer problema irá retornar uma mensagem de erro
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            
 
-            String url = "jdbc:mysql://localhost:3307/p-java";
+            String url = "jdbc:mysql://localhost:3306/p-java";
 
-            conn = DriverManager.getConnection(url, "root", "");
-
-            return conn;
+            return DriverManager.getConnection(url, "root", "MyKeyword");
 
         } catch (SQLException erro) {
             //mensagem de erro
             JOptionPane.showMessageDialog((null), "ConexaoDAO " + erro.getMessage());
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ConexaoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException(erro);
         }
-
-        return null;
     }
 
 }

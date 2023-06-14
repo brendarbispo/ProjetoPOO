@@ -156,5 +156,34 @@ public class ProdutoDAO {
 
     }
  
+   public List<ProdutoDTO> pesquisarProdutos(String produtoDigitado) {
+    String sql = "SELECT idproduto, nomeProduto, valor FROM produtos WHERE nomeProduto LIKE ?";
+
+    try (
+        Connection conn = new ConexaoDAO().conectaBD(); 
+        PreparedStatement pstm = conn.prepareStatement(sql)
+    ) 
+    {
+        
+        pstm.setString(1, "%" + produtoDigitado + "%");
+        ResultSet rs = pstm.executeQuery();
+
+        List<ProdutoDTO> lista = new ArrayList<>();
+
+        while (rs.next()) {
+            ProdutoDTO dto = new ProdutoDTO();
+            dto.setId_produto(rs.getInt("idproduto"));
+            dto.setNome_produto(rs.getString("nomeProduto"));
+            dto.setValor(rs.getFloat("valor"));
+
+            lista.add(dto);
+        }
+
+        return lista;
+    } catch (SQLException erro) {
+        JOptionPane.showMessageDialog(null, "ProdutoDAO, Pesquisar: " + erro);
+        throw new RuntimeException(erro);
+    }
+}
    
 }
